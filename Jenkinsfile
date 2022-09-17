@@ -24,7 +24,7 @@ pipeline{
       stage('Build Docker Image') {
             steps {
                 sshagent([credential]) {
-                   sh """ssh -l -o StrictHostkeyChecking=no ${server} <<EOF
+                   sh """ssh -o StrictHostkeyChecking=no ${server} <<EOF
                    cd ${directory}
                    docker build -t ${image}:latest 
                    exit
