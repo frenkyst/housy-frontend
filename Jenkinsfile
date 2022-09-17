@@ -9,7 +9,7 @@ def image = 'housy-frontend'
 pipeline{
   agent any
   stages{
-     stage('Pull From frontend Repo') {
+     stage('Pull From Frontend Repo') {
          steps {
             sshagent([credential]) {
                 sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
@@ -28,9 +28,9 @@ pipeline{
               sshagent ([credential]) {
                   sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
                   docker container stop ${userdock}-${image}
-                  docker container stop ${userdock}/${image}
                   docker container rm ${userdock}-${image}
-                  docker container rm ${userdock}/${image}
+                  docker rmi ${userdock}/${image}
+                  docker rmi ${userdock}-${image}
                   docker compose -f fe.yaml up -d
                   exit
                   EOF"""
