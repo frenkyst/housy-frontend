@@ -27,10 +27,11 @@ pipeline{
           steps{
               sshagent ([credential]) {
                   sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
-                  docker container stop ${userdock}-${image}
-                  docker container rm ${userdock}-${image}
-                  docker rmi ${userdock}/${image}
-                  docker rmi ${userdock}-${image}
+                  # docker container stop ${userdock}-${image}
+                  # docker container rm ${userdock}-${image}
+                  docker compose -f fe.yaml down
+                  # docker rmi ${userdock}/${image}
+                  # docker rmi ${userdock}-${image}
                   docker compose -f fe.yaml up -d
                   exit
                   EOF"""
