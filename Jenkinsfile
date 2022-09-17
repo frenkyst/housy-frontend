@@ -31,8 +31,8 @@ pipeline{
                   # docker container stop ${userdock}-${image}
                   # docker container rm ${userdock}-${image}
                   docker compose down
-                  # docker rmi ${userdock}/${image}
-                  # docker rmi ${userdock}-${image}
+                  docker rmi ${userdock}/${image}
+                  docker rmi ${userdock}-${image}
                   docker compose up -d
                   exit
                   EOF"""
