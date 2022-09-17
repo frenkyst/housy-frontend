@@ -14,7 +14,7 @@ pipeline{
             sshagent([credential]) {
                 sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
                 cd ${directory}
-                docker compose down
+                # docker compose down
                 docker system prune -f
                 git remote add origin ${url} || git remote set-url origin ${url}
                 git pull ${url} ${branch}
@@ -23,10 +23,14 @@ pipeline{
               }
           }
       }
-      stage('building docker images'){
+      stage('Building Docker Images'){
           steps{
               sshagent ([credential]) {
                   sh """ssh -o StrictHostkeyChecking=no ${server} << EOF
+                  docker container stop ${userdock}-${image}
+                  docker container stop ${userdock}/${image}
+                  docker container rm ${userdock}-${image}
+                  docker container rm ${userdock}/${image}
                   docker compose -f fe.yaml up -d
                   exit
                   EOF"""
